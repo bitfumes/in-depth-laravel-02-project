@@ -1,11 +1,9 @@
-<template>About</template>
+<template>
+    About
+    <br />
+    <Footer />
+</template>
 
-<script>
-export default {
-    data() {
-        return {
-            count: 0,
-        };
-    },
-};
+<script setup>
+import Footer from "./Footer.vue";
 </script>
