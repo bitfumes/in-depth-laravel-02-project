@@ -1,3 +1,8 @@
-<template>About</template>
+<template>
+    <Head title="About"></Head>
+    About
+</template>
 
-<script></script>
+<script setup>
+import { Head } from "@inertiajs/vue3";
+</script>
