@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Monitor;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -8,7 +9,10 @@ Route::get('/', function () {
 });
 
 Route::get('home', function () {
-    return Inertia::render('Home');
+    $monitors = Monitor::all();
+    return Inertia::render('Home', [
+        'monitors' => $monitors,
+    ]);
 });
 Route::get('about', function () {
     return Inertia::render('About');
