@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Monitor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -22,4 +23,8 @@ Route::get('login', function () {
 });
 Route::get('site/create', function () {
     return Inertia::render('Site/Create');
+});
+
+Route::post('/auth/login', function (Request $request) {
+    return Inertia::location('/home');
 });
