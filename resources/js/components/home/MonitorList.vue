@@ -12,6 +12,7 @@
             </div>
             <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                 <button
+                    @click="createSite"
                     type="button"
                     class="block rounded-md bg-indigo-600 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
@@ -60,7 +61,10 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <tr v-for="monitor in monitors" :key="monitor.id">
+                            <tr
+                                v-for="monitor in monitors.data"
+                                :key="monitor.id"
+                            >
                                 <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0"
                                 >
@@ -99,8 +103,21 @@
             </div>
         </div>
     </div>
+    <Paginate
+        :next="monitors.next_page_url"
+        :prev="monitors.prev_page_url"
+        :currentPage="monitors.current_page"
+        :lastPage="monitors.last_page"
+        class="mt-4"
+    />
 </template>
 
 <script setup>
+import Paginate from "@/components/Paginate.vue";
+import { router } from "@inertiajs/vue3";
 defineProps(["monitors"]);
+
+function createSite() {
+    router.visit("/site/create");
+}
 </script>

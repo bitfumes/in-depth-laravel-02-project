@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('home', function () {
-    $monitors = Monitor::all();
+    $monitors = Monitor::paginate();
     return Inertia::render('Home', [
         'monitors' => $monitors,
     ]);
@@ -19,4 +19,7 @@ Route::get('about', function () {
 });
 Route::get('login', function () {
     return Inertia::render('Login');
+});
+Route::get('site/create', function () {
+    return Inertia::render('Site/Create');
 });
