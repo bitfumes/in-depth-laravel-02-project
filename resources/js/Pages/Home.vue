@@ -1,5 +1,5 @@
 <template>
-    Hello
+    <h1 class="text-lg text-red-500">Home</h1>
     <br />
     <button @click="count++">+</button>{{ count }}
     <button @click="count--">-</button>

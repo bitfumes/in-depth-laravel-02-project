@@ -7,8 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test', function () {
-    return Inertia::render('Test');
+Route::get('home', function () {
+    return Inertia::render('Home');
 });
 Route::get('about', function () {
     return Inertia::render('About');
