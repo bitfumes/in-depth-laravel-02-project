@@ -2,6 +2,7 @@
 
 use App\Models\Monitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,9 +27,18 @@ Route::get('site/create', function () {
 });
 
 Route::post('/auth/login', function (Request $request) {
-    $request->validate([
+    $credentials = $request->validate([
         'email'    => ['required', 'email'],
         'password' => ['required'],
     ]);
-    return Inertia::location('/home');
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+
+        return Inertia::location('/home');
+    }
+
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->onlyInput('email');
 });
