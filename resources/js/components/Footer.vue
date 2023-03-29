@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import Link from "./Link.vue";
+import Link from "@/components/Link.vue";
 </script>
 
 <style>

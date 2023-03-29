@@ -1,9 +1,3 @@
-<template>
-    About
-    <br />
-    <Footer />
-</template>
+<template>About</template>
 
-<script setup>
-import Footer from "./Footer.vue";
-</script>
+<script></script>

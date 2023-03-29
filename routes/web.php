@@ -13,3 +13,6 @@ Route::get('test', function () {
 Route::get('about', function () {
     return Inertia::render('About');
 });
+Route::get('login', function () {
+    return Inertia::render('Login');
+});

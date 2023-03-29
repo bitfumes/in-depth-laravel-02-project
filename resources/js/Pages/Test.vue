@@ -1,13 +1,13 @@
 <template>
     Hello
+    <br />
     <button @click="count++">+</button>{{ count }}
     <button @click="count--">-</button>
-    <br />
-    <Footer />
 </template>
+
+<script></script>
 
 <script setup>
 import { ref } from "vue";
-import Footer from "./Footer.vue";
 const count = ref(0);
 </script>
