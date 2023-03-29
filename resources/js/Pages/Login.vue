@@ -35,8 +35,12 @@
                                 autocomplete="email"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 v-model="form.email"
+                                @input="handleInput"
                             />
                         </div>
+                        <small class="text-red-500" v-if="form.errors.email">{{
+                            form.errors.email
+                        }}</small>
                     </div>
 
                     <div>
@@ -53,26 +57,33 @@
                                 autocomplete="current-password"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 v-model="form.password"
+                                @input="handleInput"
                             />
                         </div>
+                        <small
+                            class="text-red-500"
+                            v-if="form.errors.password"
+                            >{{ form.errors.password }}</small
+                        >
                     </div>
 
                     <div>
-                        <Link
+                        <!-- <Link
                             href="/auth/login"
                             method="post"
                             as="button"
                             type="button"
                             :data="form"
                             replace
+                        > -->
+                        <button
+                            type="submit"
                             class="flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            :disabled="form.processing"
                         >
-                            <!-- <button
-                                type="submit"
-                            > -->
                             Sign in
-                            <!-- </button> -->
-                        </Link>
+                        </button>
+                        <!-- </Link> -->
                     </div>
                 </form>
             </div>
@@ -81,15 +92,21 @@
 </template>
 
 <script setup>
-import { Link } from "@inertiajs/vue3";
-import { reactive } from "vue";
+import { useForm } from "@inertiajs/vue3";
 
-const form = reactive({
-    email: "",
-    password: "",
+const form = useForm({
+    email: "sarthak@bitfumes.com",
+    password: "password",
 });
 
 function submit() {
-    //
+    form.post("/auth/login", {
+        preserveScroll: true,
+        onSuccess: () => form.reset("password"),
+    });
+}
+
+function handleInput(e) {
+    form.clearErrors(e.target.name);
 }
 </script>
