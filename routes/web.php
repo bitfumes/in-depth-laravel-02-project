@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Models\Monitor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,24 +20,10 @@ Route::get('about', function () {
 });
 Route::get('login', function () {
     return Inertia::render('Login');
-});
+})->name('login');
 Route::get('site/create', function () {
     return Inertia::render('Site/Create');
 });
 
-Route::post('/auth/login', function (Request $request) {
-    $credentials = $request->validate([
-        'email'    => ['required', 'email'],
-        'password' => ['required'],
-    ]);
-
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-
-        return Inertia::location('/home');
-    }
-
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
-    ])->onlyInput('email');
-});
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/logout', [AuthController::class, "logout"]);

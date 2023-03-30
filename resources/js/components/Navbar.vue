@@ -102,14 +102,16 @@
                                     >
                                 </MenuItem>
                                 <MenuItem v-slot="{ active }">
-                                    <a
-                                        href="#"
+                                    <InertiaLink
+                                        href="/auth/logout"
+                                        method="post"
                                         :class="[
                                             active ? 'bg-gray-100' : '',
-                                            'block px-4 py-2 text-sm text-gray-700',
+                                            'block px-4 py-2 text-sm text-gray-700 w-full text-left',
                                         ]"
-                                        >Sign out</a
                                     >
+                                        Sign out
+                                    </InertiaLink>
                                 </MenuItem>
                             </MenuItems>
                         </transition>
@@ -156,6 +158,7 @@ import {
     MenuItems,
 } from "@headlessui/vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Link as InertiaLink, router } from "@inertiajs/vue3";
 import Link from "./Link.vue";
 
 const navigation = [
@@ -163,13 +166,7 @@ const navigation = [
     { name: "About", href: "/about" },
 ];
 
-// const isLoggedIn = window.auth?.isLoggedIn;
+function logout() {
+    router.post("/auth/logout");
+}
 </script>
-
-<!-- <script>
-export default {
-    mounted() {
-        console.log(this.$page.props.auth.isLoggedIn);
-    },
-};
-</script> -->
