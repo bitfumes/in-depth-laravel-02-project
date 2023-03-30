@@ -82,15 +82,16 @@
                                 <td
                                     class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
                                 >
-                                    <a
-                                        href="#"
+                                    <button
+                                        @click="destroy(monitor.id)"
                                         class="text-red-600 hover:text-red-900 mr-2"
-                                        >Delete</a
                                     >
-                                    <a
-                                        href="#"
+                                        Delete
+                                    </button>
+                                    <Link
+                                        :href="`/site/${monitor.id}/edit`"
                                         class="text-indigo-600 hover:text-indigo-900"
-                                        >Edit</a
+                                        >Edit</Link
                                     >
                                 </td>
                             </tr>
@@ -111,10 +112,15 @@
 
 <script setup>
 import Paginate from "@/components/Paginate.vue";
-import { router } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 defineProps(["monitors"]);
 
 function createSite() {
     router.visit("/site/create");
+}
+
+function destroy(id) {
+    if (!confirm("Are you sure you want to delete it??")) return;
+    router.delete(`/site/${id}`);
 }
 </script>

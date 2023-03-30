@@ -10,23 +10,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('home', function () {
-    $monitors = Monitor::latest()->paginate();
-    return Inertia::render('Home', [
-        'monitors' => $monitors,
-    ]);
-})->name('home');
-
 Route::get('about', function () {
-    sleep(2);
     return Inertia::render('About');
 });
+
 Route::get('login', function () {
     return Inertia::render('Login');
 })->name('login');
-
-Route::get('/site/create', [MonitorController::class, 'create'])->name('site.create');
-Route::post('/site/store', [MonitorController::class, 'store'])->name('site.store');
-
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::post('/auth/logout', [AuthController::class, "logout"]);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('home', function () {
+        $monitors = Monitor::latest()->paginate();
+        return Inertia::render('Home', [
+            'monitors' => $monitors,
+        ]);
+    })->name('home');
+
+    Route::get('/site/create', [MonitorController::class, 'create'])->name('site.create');
+    Route::post('/site/store', [MonitorController::class, 'store'])->name('site.store');
+    Route::delete('/site/{monitor}', [MonitorController::class, 'destroy'])->name('site.delete');
+    Route::get('/site/{monitor}/edit', [MonitorController::class, 'edit'])->name('site.edit');
+    Route::patch('/site/{monitor}/update', [MonitorController::class, 'update'])->name('site.update');
+
+    Route::post('/auth/logout', [AuthController::class, "logout"]);
+});
