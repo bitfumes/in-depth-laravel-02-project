@@ -15,9 +15,6 @@ class MonitorController extends Controller
 
     public function store(MonitorStoreRequest $request)
     {
-        // relationship
-        // add here in array
-        // add to validation class
         Monitor::create($request->validated());
         return to_route('home');
     }

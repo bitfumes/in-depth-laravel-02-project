@@ -50,13 +50,7 @@
                                     scope="col"
                                     class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900"
                                 >
-                                    Role
-                                </th>
-                                <th
-                                    scope="col"
-                                    class="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                                >
-                                    <span class="sr-only">Edit</span>
+                                    Actions
                                 </th>
                             </tr>
                         </thead>
@@ -90,10 +84,13 @@
                                 >
                                     <a
                                         href="#"
+                                        class="text-red-600 hover:text-red-900 mr-2"
+                                        >Delete</a
+                                    >
+                                    <a
+                                        href="#"
                                         class="text-indigo-600 hover:text-indigo-900"
-                                        >Edit<span class="sr-only"
-                                            >, {{ monitor.name }}</span
-                                        ></a
+                                        >Edit</a
                                     >
                                 </td>
                             </tr>

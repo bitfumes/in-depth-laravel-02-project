@@ -24,6 +24,14 @@ class MonitorStoreRequest extends FormRequest
         return [
             'site_name' => ['required', 'string', 'max:254'],
             'site_url'  => ['required', 'url', 'max:254'],
+            'user_id'   => ['required'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => auth()->id(),
+        ]);
     }
 }

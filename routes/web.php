@@ -11,7 +11,7 @@ Route::get('/', function () {
 });
 
 Route::get('home', function () {
-    $monitors = Monitor::paginate();
+    $monitors = Monitor::latest()->paginate();
     return Inertia::render('Home', [
         'monitors' => $monitors,
     ]);
