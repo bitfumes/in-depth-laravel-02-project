@@ -18,6 +18,7 @@ return new class() extends Migration {
             $table->text('response');
             $table->string('response_code');
             $table->json('meta')->nullable();
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

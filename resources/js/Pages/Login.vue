@@ -38,9 +38,7 @@
                                 @input="handleInput"
                             />
                         </div>
-                        <small class="text-red-500" v-if="form.errors.email">{{
-                            form.errors.email
-                        }}</small>
+                        <ShowError :error="form.errors.email" />
                     </div>
 
                     <div>
@@ -60,11 +58,7 @@
                                 @input="handleInput"
                             />
                         </div>
-                        <small
-                            class="text-red-500"
-                            v-if="form.errors.password"
-                            >{{ form.errors.password }}</small
-                        >
+                        <ShowError :error="form.errors.password" />
                     </div>
 
                     <div>
@@ -92,6 +86,7 @@
 </template>
 
 <script setup>
+import ShowError from "@/components/ShowError.vue";
 import { useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 

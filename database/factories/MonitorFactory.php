@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,6 +23,7 @@ class MonitorFactory extends Factory
             'status'        => 0,
             'response'      => $this->faker->text(),
             'response_code' => 500,
+            'user_id'       => User::factory(),
         ];
     }
 }
