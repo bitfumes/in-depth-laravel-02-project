@@ -93,6 +93,9 @@
 
 <script setup>
 import { useForm } from "@inertiajs/vue3";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const form = useForm({
     email: "sarthak@bitfumes.com",
@@ -102,7 +105,10 @@ const form = useForm({
 function submit() {
     form.post("/auth/login", {
         preserveScroll: true,
-        onSuccess: () => form.reset("password"),
+        onSuccess: () => {
+            toast.success("Your are logged in!");
+            form.reset("password");
+        },
     });
 }
 

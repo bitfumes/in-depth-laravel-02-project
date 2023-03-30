@@ -2,6 +2,7 @@ import { unref, useSSRContext, mergeProps, withCtx, createVNode, createTextVNode
 import { ssrRenderComponent, ssrRenderAttrs, ssrRenderList, ssrRenderClass, ssrInterpolate, ssrRenderAttr, ssrIncludeBooleanAttr } from "vue/server-renderer";
 import { Head, Link, useForm, createInertiaApp } from "@inertiajs/vue3";
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from "@heroicons/vue/20/solid";
+import { useToast } from "vue-toastification";
 import createServer from "@inertiajs/vue3/server";
 import { renderToString } from "@vue/server-renderer";
 const _sfc_main$5 = {
@@ -153,6 +154,7 @@ const _sfc_main$1 = {
   __name: "Login",
   __ssrInlineRender: true,
   setup(__props) {
+    useToast();
     const form = useForm({
       email: "sarthak@bitfumes.com",
       password: "password"

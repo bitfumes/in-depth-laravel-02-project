@@ -14,8 +14,10 @@ Route::get('home', function () {
     return Inertia::render('Home', [
         'monitors' => $monitors,
     ]);
-});
+})->name('home');
+
 Route::get('about', function () {
+    sleep(2);
     return Inertia::render('About');
 });
 Route::get('login', function () {
