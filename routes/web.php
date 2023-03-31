@@ -37,15 +37,23 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('test', function () {
-    $url = 'https://bitfumes.com';
-    $ch  = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_HEADER, false);
-    curl_setopt($ch, CURLOPT_NOBODY, false);
-    $response = curl_exec($ch);
+    $monitors = Monitor::all();
+    $monitors->each(function ($monitor) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $monitor->site_url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_NOBODY, false);
+        $response = curl_exec($ch);
 
-    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    dd($httpStatus);
-    return $httpStatus;
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $monitor->update([
+            'status'        => $httpCode >= 200 && $httpCode < 400,
+            'response'      => $response,
+            'response_code' => $httpCode,
+        ]);
+    });
+
+    return 'done';
 });
