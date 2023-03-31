@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\BroadcastStatusChangedEvent;
 use App\Models\Monitor;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,8 +36,15 @@ class PingStatusJob implements ShouldQueue
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
+        $newStatus = $httpCode >= 200 && $httpCode < 400;
+
+        $statusChanged = $this->monitor->status != $newStatus;
+        if ($statusChanged) {
+            event(new BroadcastStatusChangedEvent($this->monitor->id));
+        }
+
         $this->monitor->update([
-            'status'        => $httpCode >= 200 && $httpCode < 400,
+            'status'        => $newStatus,
             'response'      => $response,
             'response_code' => $httpCode,
         ]);
