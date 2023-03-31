@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MonitorController;
-use App\Models\Monitor;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,7 +20,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('home', function () {
-        $monitors = Monitor::latest()->paginate();
+        $monitors = auth()->user()->monitors()->latest()->paginate();
         return Inertia::render('Home', [
             'monitors' => $monitors,
         ]);
