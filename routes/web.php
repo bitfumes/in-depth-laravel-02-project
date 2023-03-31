@@ -35,3 +35,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/auth/logout', [AuthController::class, "logout"]);
 });
+
+Route::get('test', function () {
+    $url = 'https://bitfumes.com';
+    $ch  = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_NOBODY, false);
+    $response = curl_exec($ch);
+
+    $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    dd($httpStatus);
+    return $httpStatus;
+});
