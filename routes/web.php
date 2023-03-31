@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MonitorController;
-use App\Jobs\PingStatusJob;
 use App\Models\Monitor;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,10 +37,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('test', function () {
-    $monitors = Monitor::all();
-    $monitors->each(function ($monitor) {
-        PingStatusJob::dispatch($monitor);
-    });
-
     return 'done';
 });
