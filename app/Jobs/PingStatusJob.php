@@ -39,9 +39,9 @@ class PingStatusJob implements ShouldQueue
         $newStatus = $httpCode >= 200 && $httpCode < 400;
 
         $statusChanged = $this->monitor->status != $newStatus;
-        if ($statusChanged) {
-            event(new BroadcastStatusChangedEvent($this->monitor->id));
-        }
+        // if ($statusChanged) {
+        event(new BroadcastStatusChangedEvent($this->monitor->id, $newStatus));
+        // }
 
         $this->monitor->update([
             'status'        => $newStatus,

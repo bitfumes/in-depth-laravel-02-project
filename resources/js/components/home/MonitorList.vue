@@ -122,6 +122,7 @@
 <script setup>
 import Paginate from "@/components/Paginate.vue";
 import { Link, router } from "@inertiajs/vue3";
+import { onMounted } from "vue";
 defineProps(["monitors"]);
 
 function createSite() {
@@ -132,4 +133,13 @@ function destroy(id) {
     if (!confirm("Are you sure you want to delete it??")) return;
     router.delete(`/site/${id}`);
 }
+
+onMounted(() => {
+    Echo.channel(`status-2-changed`).listen(
+        "BroadcastStatusChangedEvent",
+        (e) => {
+            console.log(e);
+        }
+    );
+});
 </script>

@@ -2,8 +2,8 @@
 
 namespace App\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -15,7 +15,7 @@ class BroadcastStatusChangedEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public int $monitorId)
+    public function __construct(public int $monitorId, public int $newStatus)
     {
         //
     }
@@ -29,7 +29,7 @@ class BroadcastStatusChangedEvent implements ShouldBroadcast
     {
         $id = $this->monitorId;
         return [
-            new PrivateChannel("status-{$id}-updated"),
+            new Channel("status-{$id}-changed"),
         ];
     }
 }
