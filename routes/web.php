@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MonitorController;
+use App\Jobs\PingStatusJob;
 use App\Models\Monitor;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,20 +40,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('test', function () {
     $monitors = Monitor::all();
     $monitors->each(function ($monitor) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $monitor->site_url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_NOBODY, false);
-        $response = curl_exec($ch);
-
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        $monitor->update([
-            'status'        => $httpCode >= 200 && $httpCode < 400,
-            'response'      => $response,
-            'response_code' => $httpCode,
-        ]);
+        PingStatusJob::dispatch($monitor);
     });
 
     return 'done';
