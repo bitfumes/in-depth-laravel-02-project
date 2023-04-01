@@ -77,6 +77,8 @@
                             >
                         </Link>
                     </div>
+
+                    <AskToSubscribe v-if="!$page.props.auth.user.isSubscribe" />
                 </div>
             </div>
         </div>
@@ -92,6 +94,7 @@
 </template>
 
 <script setup>
+import AskToSubscribe from "@/components/home/AskToSubscribe.vue";
 import ShowSite from "@/components/home/ShowSite.vue";
 import Paginate from "@/components/Paginate.vue";
 import { Link, router } from "@inertiajs/vue3";

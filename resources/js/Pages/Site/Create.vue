@@ -29,6 +29,7 @@
                                     type="text"
                                     name="site_name"
                                     id="site_name"
+                                    :disabled="!isSubscribe"
                                     autocomplete="site_name"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     v-model="form.site_name"
@@ -51,6 +52,7 @@
                                     autocomplete="site_url"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     v-model="form.site_url"
+                                    :disabled="!isSubscribe"
                                 />
                                 <ShowError :error="form.errors.site_url" />
                             </div>
@@ -69,6 +71,7 @@
                     </Link>
                     <button
                         type="submit"
+                        :disabled="!isSubscribe"
                         class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >
                         Save
@@ -77,9 +80,13 @@
             </form>
         </div>
     </div>
+    <div class="mt-4">
+        <AskToSubscribe v-if="!isSubscribe" />
+    </div>
 </template>
 
 <script setup>
+import AskToSubscribe from "@/components/home/AskToSubscribe.vue";
 import ShowError from "@/components/ShowError.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 
@@ -87,4 +94,15 @@ const form = useForm({
     site_name: "",
     site_url: "",
 });
+</script>
+
+<script>
+export default {
+    computed: {
+        isSubscribe() {
+            return this.$page.props.auth.user.isSubscribe;
+        },
+    },
+    components: { AskToSubscribe },
+};
 </script>
