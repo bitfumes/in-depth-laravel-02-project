@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Monitor;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,13 +37,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = auth()->user();
         return array_merge(parent::share($request), [
             'auth' => [
                 'isLoggedIn' => auth()->check(),
                 'user'       => auth()->check() ? [
-                    'name'         => auth()->user()->name,
-                    'email'        => auth()->user()->email,
-                    'isSubscribed' => false,  // auth()->user()->isSubscribed
+                    'name'         => $user->name,
+                    'email'        => $user->email,
+                    'isSubscribed' => false,  // $user->isSubscribed
+                    'can'          => [
+                        'createMonitor' => $user->can('create', Monitor::class),
+                    ],
                 ] : [],
             ],
         ]);

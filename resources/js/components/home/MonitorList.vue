@@ -78,7 +78,7 @@
                         </Link>
                     </div>
 
-                    <AskToSubscribe v-if="!$page.props.auth.user.isSubscribe" />
+                    <AskToSubscribe />
                 </div>
             </div>
         </div>

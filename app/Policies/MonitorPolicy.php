@@ -28,6 +28,10 @@ class MonitorPolicy
      */
     public function create(User $user): bool
     {
+        if ($user->monitors->count() == 0) {
+            return true;
+        }
+
         return $user->isSubscribed;
     }
 

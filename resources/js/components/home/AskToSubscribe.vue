@@ -1,5 +1,6 @@
 <template>
     <div
+        v-if="!createMonitor"
         class="relative block w-full rounded-lg border-2 border-dashed border-indigo-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
     >
         <span class="mt-2 block text-sm font-semibold text-indigo-900"
@@ -14,3 +15,13 @@
         </button>
     </div>
 </template>
+
+<script>
+export default {
+    computed: {
+        createMonitor() {
+            return this.$page.props.auth.user?.can.createMonitor;
+        },
+    },
+};
+</script>
