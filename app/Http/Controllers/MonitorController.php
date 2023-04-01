@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MonitorStoreRequest;
 use App\Models\Monitor;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class MonitorController extends Controller
@@ -28,6 +29,10 @@ class MonitorController extends Controller
 
     public function store(MonitorStoreRequest $request)
     {
+        if (Gate::denies('create-monitor')) {
+            abort(403, 'You are not allowed to create a monitor.');
+        }
+
         Monitor::create($request->validated());
         return to_route('home');
     }
