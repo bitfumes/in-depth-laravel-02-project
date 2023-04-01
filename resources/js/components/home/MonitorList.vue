@@ -25,7 +25,10 @@
                 <div
                     class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
                 >
-                    <table class="min-w-full divide-y divide-gray-300">
+                    <table
+                        class="min-w-full divide-y divide-gray-300"
+                        v-if="monitors.data?.length"
+                    >
                         <thead>
                             <tr>
                                 <th
@@ -62,11 +65,24 @@
                             />
                         </tbody>
                     </table>
+                    <div v-else>
+                        <Link
+                            href="/site/create"
+                            type="button"
+                            class="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                            <span
+                                class="mt-2 block text-sm font-semibold text-gray-900"
+                                >Add new site for monitoring</span
+                            >
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <Paginate
+        v-if="monitors.last_page > 1"
         :next="monitors.next_page_url"
         :prev="monitors.prev_page_url"
         :currentPage="monitors.current_page"
@@ -78,7 +94,7 @@
 <script setup>
 import ShowSite from "@/components/home/ShowSite.vue";
 import Paginate from "@/components/Paginate.vue";
-import { router } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 defineProps(["monitors"]);
 
 function createSite() {
