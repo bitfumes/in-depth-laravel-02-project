@@ -73,7 +73,7 @@
 
                     <!-- Plan -->
                     <section aria-labelledby="plan-heading">
-                        <form action="#" method="POST">
+                        <form @submit.prevent="planForm.patch('subscribe')">
                             <div
                                 class="shadow sm:overflow-hidden sm:rounded-md"
                             >
@@ -89,7 +89,7 @@
                                         </h2>
                                     </div>
 
-                                    <RadioGroup v-model="selectedPlan">
+                                    <RadioGroup v-model="planForm.plan">
                                         <RadioGroupLabel class="sr-only">
                                             Pricing plans
                                         </RadioGroupLabel>
@@ -331,23 +331,18 @@ import {
     RadioGroupOption,
 } from "@headlessui/vue";
 import { useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
 
-const user = {
-    name: "Lisa Marie",
-    email: "lisamarie@example.com",
-    imageUrl:
-        "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=80",
-};
 const plans = [
     {
         name: "Free Plan",
+        value: "free",
         priceMonthly: 0,
         priceYearly: 0,
         limit: "Up to 1 active site monitoring",
     },
     {
         name: "Pro Plan",
+        value: "pro",
         priceMonthly: 9,
         priceYearly: 90,
         limit: "Up to 100 active site monitoring",
@@ -366,8 +361,9 @@ const payments = [
 ];
 const props = defineProps(["auth"]);
 
-const selectedPlan = ref(props.auth.user.isSubscribed ? plans[1] : plans[0]);
-const annualBillingEnabled = ref(true);
+const planForm = useForm({
+    plan: props.auth.user.isSubscribed ? plans[1] : plans[0],
+});
 
 const form = useForm({
     email: props.auth.user.email,

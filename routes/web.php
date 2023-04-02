@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MonitorController;
+use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,9 +42,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('profile', [UserController::class, 'profile'])
         ->name('user.profile');
 
-    Route::post('/subscribe', function () {
-        $user = auth()->user();
-        $data = $user->newSubscription('default', 'price_1MsJA9CZJF6ofZHwJrA5zng7')->checkout();
-        return Inertia::location($data->url);
-    });
+    Route::post('subscribe', [SubscribeController::class, 'store'])->name('subscribe.store');
+    Route::patch('subscribe', [SubscribeController::class, 'update'])->name('subscribe.update');
 });
