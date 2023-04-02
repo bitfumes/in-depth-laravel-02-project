@@ -53,7 +53,7 @@ class User extends Authenticatable
     public function isSubscribed(): Attribute
     {
         return Attribute::make(
-            get : fn () => false
+            get : fn () => $this->subscribed('default')
         );
     }
 }

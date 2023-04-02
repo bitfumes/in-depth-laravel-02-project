@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
                 'user'       => auth()->check() ? [
                     'name'         => $user->name,
                     'email'        => $user->email,
-                    'isSubscribed' => false,  // $user->isSubscribed
+                    'isSubscribed' => $user->isSubscribed,
                     'can'          => [
                         'createMonitor' => $user->can('create', Monitor::class),
                     ],
