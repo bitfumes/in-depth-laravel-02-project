@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MonitorController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,8 +13,6 @@ Route::get('/', function () {
 Route::get('about', function () {
     return Inertia::render('About');
 });
-
-Route::inertia('profile', 'Profile');
 
 Route::get('login', function () {
     return Inertia::render('Login');
@@ -36,13 +35,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/auth/logout', [AuthController::class, "logout"]);
 
+    // User
+    Route::patch('user', [UserController::class, 'update'])
+        ->name('user.update');
+    Route::get('profile', [UserController::class, 'profile'])
+        ->name('user.profile');
+
     Route::post('/subscribe', function () {
         $user = auth()->user();
         $data = $user->newSubscription('default', 'price_1MsJA9CZJF6ofZHwJrA5zng7')->checkout();
         return Inertia::location($data->url);
     });
-});
-
-Route::get('test', function () {
-    return 'done';
 });

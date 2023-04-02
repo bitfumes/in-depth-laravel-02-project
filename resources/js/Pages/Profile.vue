@@ -2,10 +2,10 @@
     <div class="h-full">
         <main class="mx-auto max-w-7xl pb-10 lg:px-8 lg:py-12">
             <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
-                <!-- Payment details -->
                 <div class="space-y-6 sm:px-6 lg:col-span-12 lg:px-0">
+                    <!-- Profile details -->
                     <section aria-labelledby="payment-details-heading">
-                        <form action="#" method="POST">
+                        <form @submit.prevent="form.patch('user')">
                             <div
                                 class="shadow sm:overflow-hidden sm:rounded-md"
                             >
@@ -33,6 +33,7 @@
                                                 type="text"
                                                 name="name"
                                                 id="name"
+                                                v-model="form.name"
                                                 autocomplete="cc-given-name"
                                                 class="mt-2 block w-full rounded-md border-0 px-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
                                             />
@@ -49,6 +50,7 @@
                                                 name="email-address"
                                                 id="email-address"
                                                 disabled
+                                                v-model="form.email"
                                                 autocomplete="email"
                                                 class="mt-2 block w-full rounded-md border-0 px-3 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
                                             />
@@ -328,6 +330,7 @@ import {
     RadioGroupLabel,
     RadioGroupOption,
 } from "@headlessui/vue";
+import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 const user = {
@@ -361,7 +364,13 @@ const payments = [
     },
     // More payments...
 ];
+const props = defineProps(["auth"]);
 
-const selectedPlan = ref(plans[1]);
+const selectedPlan = ref(props.auth.user.isSubscribed ? plans[1] : plans[0]);
 const annualBillingEnabled = ref(true);
+
+const form = useForm({
+    email: props.auth.user.email,
+    name: props.auth.user.name,
+});
 </script>
