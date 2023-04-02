@@ -13,6 +13,8 @@ Route::get('about', function () {
     return Inertia::render('About');
 });
 
+Route::inertia('profile', 'Profile');
+
 Route::get('login', function () {
     return Inertia::render('Login');
 })->name('login');
