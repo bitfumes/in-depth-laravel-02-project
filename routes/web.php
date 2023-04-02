@@ -33,6 +33,12 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/site/{monitor}/update', [MonitorController::class, 'update'])->name('site.update');
 
     Route::post('/auth/logout', [AuthController::class, "logout"]);
+
+    Route::post('/subscribe', function () {
+        $user = auth()->user();
+        $data = $user->newSubscription('default', 'price_1MsJA9CZJF6ofZHwJrA5zng7')->checkout();
+        return Inertia::location($data->url);
+    });
 });
 
 Route::get('test', function () {

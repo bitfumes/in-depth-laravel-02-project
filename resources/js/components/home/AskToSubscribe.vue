@@ -7,21 +7,26 @@
             >To add more site for monitoring, please subscribe to paid
             plan.</span
         >
-        <button
+        <Link
+            href="/subscribe"
+            method="post"
             type="button"
             class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-4"
         >
             Subscribe
-        </button>
+        </Link>
     </div>
 </template>
 
 <script>
+import { Link } from "@inertiajs/vue3";
+
 export default {
     computed: {
         createMonitor() {
             return this.$page.props.auth.user?.can.createMonitor;
         },
     },
+    components: { Link },
 };
 </script>
