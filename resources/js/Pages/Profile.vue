@@ -89,7 +89,10 @@
                                         </h2>
                                     </div>
 
-                                    <RadioGroup v-model="planForm.plan">
+                                    <RadioGroup
+                                        :disabled="endsAt"
+                                        v-model="planForm.plan"
+                                    >
                                         <RadioGroupLabel class="sr-only">
                                             Pricing plans
                                         </RadioGroupLabel>
@@ -192,8 +195,21 @@
                                     </RadioGroup>
                                 </div>
                                 <div
-                                    class="bg-gray-50 px-4 py-3 text-right sm:px-6"
+                                    class="bg-gray-50 px-4 py-3 flex justify-between sm:px-6"
                                 >
+                                    <div>
+                                        <div v-if="endsAt">
+                                            You will move to free plan after
+                                            {{ endsAt }}
+
+                                            <button
+                                                @click="resume"
+                                                class="inline-flex justify-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+                                            >
+                                                Resume
+                                            </button>
+                                        </div>
+                                    </div>
                                     <button
                                         type="submit"
                                         class="inline-flex justify-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
@@ -331,6 +347,7 @@ import {
     RadioGroupOption,
 } from "@headlessui/vue";
 import { useForm } from "@inertiajs/vue3";
+import { computed } from "@vue/reactivity";
 
 const plans = [
     {
@@ -362,11 +379,19 @@ const payments = [
 const props = defineProps(["auth"]);
 
 const planForm = useForm({
-    plan: props.auth.user.isSubscribed ? plans[1] : plans[0],
+    plan: props.auth.user.subscription.isSubscribed ? plans[1] : plans[0],
 });
 
 const form = useForm({
     email: props.auth.user.email,
     name: props.auth.user.name,
 });
+
+const endsAt = computed(() => {
+    return props.auth.user.subscription.ends_at;
+});
+
+function resume() {
+    //
+}
 </script>
