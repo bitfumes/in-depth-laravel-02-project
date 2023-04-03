@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Events\BroadcastStatusChangedEvent;
 use App\Models\Monitor;
+use App\Notifications\SiteDownNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -39,9 +40,13 @@ class PingStatusJob implements ShouldQueue
         $newStatus = $httpCode >= 200 && $httpCode < 400;
 
         $statusChanged = $this->monitor->status != $newStatus;
-        // if ($statusChanged) {
-        event(new BroadcastStatusChangedEvent($this->monitor->id, $newStatus));
-        // }
+        if ($statusChanged) {
+            event(new BroadcastStatusChangedEvent($this->monitor->id, $newStatus));
+        }
+
+        if (! $newStatus) {
+            $this->monitor->user->notify(new SiteDownNotification($this->monitor));
+        }
 
         $this->monitor->update([
             'status'        => $newStatus,
