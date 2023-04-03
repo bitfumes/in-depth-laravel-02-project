@@ -9,7 +9,10 @@ class UserController extends Controller
 {
     public function profile()
     {
-        return Inertia::render('Profile');
+        $invoices = auth()->user()->invoices();
+        return Inertia::render('Profile', [
+            'invoices' => $invoices,
+        ]);
     }
 
     public function update(Request $request)

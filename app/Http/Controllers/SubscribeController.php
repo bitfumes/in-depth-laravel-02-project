@@ -29,4 +29,12 @@ class SubscribeController extends Controller
 
         return to_route('user.profile');
     }
+
+    public function resume()
+    {
+        $user = auth()->user();
+        $user->subscription('default')->resume();
+
+        return to_route('user.profile');
+    }
 }

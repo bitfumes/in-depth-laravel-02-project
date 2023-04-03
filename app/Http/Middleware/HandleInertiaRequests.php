@@ -46,7 +46,7 @@ class HandleInertiaRequests extends Middleware
                     'email'        => $user->email,
                     'subscription' => [
                         'isSubscribed' => $user->isSubscribed,
-                        'ends_at'      => $user->subscription()->ends_at->format('Y-m-d H:i:s'),
+                        'ends_at'      => $user->subscription()?->ends_at?->format('Y-m-d H:i:s'),
                     ],
                     'can' => [
                         'createMonitor' => $user->can('create', Monitor::class),

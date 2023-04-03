@@ -44,4 +44,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('subscribe', [SubscribeController::class, 'store'])->name('subscribe.store');
     Route::patch('subscribe', [SubscribeController::class, 'update'])->name('subscribe.update');
+    Route::post('subscription/resume', [SubscribeController::class, 'resume'])->name('subscribe.resume');
 });

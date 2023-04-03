@@ -204,6 +204,7 @@
 
                                             <button
                                                 @click="resume"
+                                                type="button"
                                                 class="inline-flex justify-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
                                             >
                                                 Resume
@@ -286,18 +287,24 @@
                                                     class="divide-y divide-gray-200 bg-white"
                                                 >
                                                     <tr
-                                                        v-for="payment in payments"
-                                                        :key="payment.id"
+                                                        v-for="invoice in invoices"
+                                                        :key="invoice.id"
                                                     >
                                                         <td
                                                             class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900"
                                                         >
                                                             <time
                                                                 :datetime="
-                                                                    payment.datetime
+                                                                    invoice.created
                                                                 "
                                                                 >{{
-                                                                    payment.date
+                                                                    dayjs
+                                                                        .unix(
+                                                                            invoice.created
+                                                                        )
+                                                                        .format(
+                                                                            "YYYY - MMM - DD"
+                                                                        )
                                                                 }}</time
                                                             >
                                                         </td>
@@ -305,21 +312,25 @@
                                                             class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
                                                         >
                                                             {{
-                                                                payment.description
+                                                                invoice.billing_reason
                                                             }}
                                                         </td>
                                                         <td
                                                             class="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
                                                         >
-                                                            {{ payment.amount }}
+                                                            ${{
+                                                                invoice.total /
+                                                                100
+                                                            }}
                                                         </td>
                                                         <td
                                                             class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium"
                                                         >
                                                             <a
                                                                 :href="
-                                                                    payment.href
+                                                                    invoice.invoice_pdf
                                                                 "
+                                                                target="_blank"
                                                                 class="text-orange-600 hover:text-orange-900"
                                                                 >View receipt</a
                                                             >
@@ -346,8 +357,9 @@ import {
     RadioGroupLabel,
     RadioGroupOption,
 } from "@headlessui/vue";
-import { useForm } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
 import { computed } from "@vue/reactivity";
+import dayjs from "dayjs";
 
 const plans = [
     {
@@ -365,18 +377,7 @@ const plans = [
         limit: "Up to 100 active site monitoring",
     },
 ];
-const payments = [
-    {
-        id: 1,
-        date: "1/1/2020",
-        datetime: "2020-01-01",
-        description: "Business Plan - Annual Billing",
-        amount: "CA$109.00",
-        href: "#",
-    },
-    // More payments...
-];
-const props = defineProps(["auth"]);
+const props = defineProps(["auth", "invoices"]);
 
 const planForm = useForm({
     plan: props.auth.user.subscription.isSubscribed ? plans[1] : plans[0],
@@ -392,6 +393,6 @@ const endsAt = computed(() => {
 });
 
 function resume() {
-    //
+    router.post("subscription/resume");
 }
 </script>
