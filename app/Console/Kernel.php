@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:check-status')->everyFiveMinutes();
+        $schedule->command('app:check-status')->everyMinute();
 
         $schedule->command('backup:clean')->daily()->at('01:00');
         $schedule->command('backup:run --only-db --disable-notifications')->dailyAt('01:00');
