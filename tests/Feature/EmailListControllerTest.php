@@ -9,7 +9,7 @@ beforeEach(function () {
     Sanctum::actingAs($this->user);
 });
 
-test('logged in user can create a new list', function () {
+test('  logged in user can create a new list', function () {
     // Arrange
 
     // Act
@@ -25,13 +25,15 @@ test('logged in user can create a new list', function () {
 });
 
 test("guests can't create a new list", function () {
+    // Arrange
+    app('auth')->guard('sanctum')->forgetUser();
     // Act
     $this->withExceptionHandling();
 
     $this->postJson(route('email-lists.store'), [
         'name' => 'My List',
     ])->assertUnauthorized();
-})->skip();
+});
 
 test('new list requires name field', function () {
     // Arrange
